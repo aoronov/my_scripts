@@ -12,9 +12,29 @@ projects=(
 "XS2A: PROD"
 "BVN: PRODGP1"
 "BVN: PRODGP2"
-"BVN: QA1"
+"BVN: QA1 OBP"
+"BVN: QA1 WERO"
 "BVN: QA2"
-"BVN: QA4"
+"BVN: QA4 (PREP) OBP"
+"BVN: QA4 (PREP) WERO"
+)
+
+base_urls=(
+"https://xs2a-dev-bd2-1.awltest.de"
+"https://xs2a-dev-sd2-1.awltest.de"
+"https://xs2a-dev-sd2-2.awltest.de"
+"https://xs2a-qa1.awltest.de"
+"https://xs2a-qa2.awltest.de"
+"https://xs2a-qa3.awltest.de"
+"https://xs2a-qa4.awltest.de"
+"https://xs2a-prod1.awltest.de"
+""
+""
+"https://qa1.obp.iacc.as8677.net"
+"https://qa1.wero.iacc.as8677.net"
+""
+"https://prep.obp.eacc.as8677.net"
+"https://prep.wero.eacc.as8677.net"
 )
 
 # Corresponding project IDs
@@ -30,8 +50,10 @@ project_ids=(
 "deu-obp-prod"
 "deu-obp-prod"
 "deu-obp-iacc"
+""
 "deu-obp-eacc"
 "deu-obp-eacc"
+""
 )
 
 # Corresponding cluster names
@@ -47,8 +69,10 @@ cluster_names=(
 "obp-prod1-gke"
 "obp-prod2-gke"
 "obp-qa1-gke"
+""
 "obp-qa2-gke"
 "obp-qa4-gke"
+""
 )
 
 # Corresponding full gcsfuse names
@@ -64,8 +88,10 @@ full_gcsfuse_hostnames=(
 "obp-prod-prod1-gcsfuse.obp-prod-prod1-vm.gcp.meshcore.net"
 "obp-prod-prod2-gcsfuse.obp-prod-prod2-vm.gcp.meshcore.net"
 "obp-qa-qa1-gcsfuse.obp-qa-qa1-vm.gcp.meshcore.net"
+""
 "obp-qa-qa2-gcsfuse.obp-qa-qa2-vm.gcp.meshcore.net"
 "obp-qa-qa4-gcsfuse.obp-qa-qa4-vm.gcp.meshcore.net"
+""
 )
 
 # Corresponding short gcsfuse names
@@ -81,8 +107,10 @@ short_gcsfuse_hostnames=(
 "obp-prod-prod1-gcsfuse"
 "obp-prod-prod2-gcsfuse"
 "obp-qa-qa1-gcsfuse"
+""
 "obp-qa-qa2-gcsfuse"
 "obp-qa-qa4-gcsfuse"
+""
 )
 
 # Corresponding gcsfuse zones
@@ -98,8 +126,10 @@ gcsfuse_zones=(
 "europe-west1-b"
 "europe-west4-b"
 "europe-west1-b"
+""
 "europe-west1-c"
 "europe-west1-b"
+""
 )
 
 echo "Select a project:"
@@ -127,7 +157,37 @@ full_gcsfuse_hostname="${full_gcsfuse_hostnames[$index]}"
 short_gcsfuse_hostname="${short_gcsfuse_hostnames[$index]}"
 gcsfuse_zone="${gcsfuse_zones[$index]}"
 
+base_url="${base_urls[$index]}"
+
+rs_available="$base_url/xs2a/routingservice/available"
+msp_available="$base_url/msp/available"
+is_available="$base_url/is/available"
+wero_available="$base_url/wero/service/available"
+
 echo "Selected project: $project"
+
+echo ""
+echo "Base URL: $base_url"
+echo ""
+
+echo "XS2A RS Available: $rs_available"
+curl_rs_available=$(curl -s "$rs_available")
+echo $curl_rs_available
+echo ""
+
+echo "XS2A MSP (BO) Available: $msp_available"
+curl_msp_available=$(curl -s "$msp_available")
+echo $curl_msp_available
+echo ""
+
+echo "IS Available: $is_available"
+curl_is_available=$(curl -s "$is_available")
+echo $curl_is_available
+echo ""
+
+echo "WERO Available: $wero_available"
+curl_wero_available=$(curl -s "$wero_available")
+echo $curl_wero_available
 echo ""
 
 # Commands
