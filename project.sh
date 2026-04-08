@@ -12,10 +12,11 @@ projects=(
 "XS2A: PROD"
 "BVN: PRODGP1"
 "BVN: PRODGP2"
-"BVN: QA1 OBP"
+"BVN: QA1 OBP (Legacy)"
 "BVN: QA1 WERO"
-"BVN: QA2"
-"BVN: QA4 (PREP) OBP"
+"BVN: QA2 OBP (Legacy)"
+"BVN: QA2 WERO"
+"BVN: QA4 (PREP) OBP (Legacy)"
 "BVN: QA4 (PREP) WERO"
 )
 
@@ -28,11 +29,12 @@ base_urls=(
 "https://xs2a-qa3.awltest.de"
 "https://xs2a-qa4.awltest.de"
 "https://xs2a-prod1.awltest.de"
-""
-""
+"https://prod1.obp.worldline-solutions.com"
+"https://prod2.obp.worldline-solutions.com"
 "https://qa1.obp.iacc.as8677.net"
 "https://qa1.wero.iacc.as8677.net"
-""
+"https://qa2.obp.iacc.as8677.net"
+"https://qa2.wero.iacc.as8677.net"
 "https://prep.obp.eacc.as8677.net"
 "https://prep.wero.eacc.as8677.net"
 )
@@ -50,10 +52,11 @@ project_ids=(
 "deu-obp-prod"
 "deu-obp-prod"
 "deu-obp-iacc"
-""
+"deu-obp-iacc"
 "deu-obp-eacc"
 "deu-obp-eacc"
-""
+"deu-obp-eacc"
+"deu-obp-eacc"
 )
 
 # Corresponding cluster names
@@ -69,10 +72,11 @@ cluster_names=(
 "obp-prod1-gke"
 "obp-prod2-gke"
 "obp-qa1-gke"
-""
+"obp-qa1-gke"
+"obp-qa2-gke"
 "obp-qa2-gke"
 "obp-qa4-gke"
-""
+"obp-qa4-gke"
 )
 
 # Corresponding full gcsfuse names
@@ -88,10 +92,11 @@ full_gcsfuse_hostnames=(
 "obp-prod-prod1-gcsfuse.obp-prod-prod1-vm.gcp.meshcore.net"
 "obp-prod-prod2-gcsfuse.obp-prod-prod2-vm.gcp.meshcore.net"
 "obp-qa-qa1-gcsfuse.obp-qa-qa1-vm.gcp.meshcore.net"
-""
+"obp-qa-qa1-gcsfuse.obp-qa-qa1-vm.gcp.meshcore.net"
+"obp-qa-qa2-gcsfuse.obp-qa-qa2-vm.gcp.meshcore.net"
 "obp-qa-qa2-gcsfuse.obp-qa-qa2-vm.gcp.meshcore.net"
 "obp-qa-qa4-gcsfuse.obp-qa-qa4-vm.gcp.meshcore.net"
-""
+"obp-qa-qa4-gcsfuse.obp-qa-qa4-vm.gcp.meshcore.net"
 )
 
 # Corresponding short gcsfuse names
@@ -107,10 +112,11 @@ short_gcsfuse_hostnames=(
 "obp-prod-prod1-gcsfuse"
 "obp-prod-prod2-gcsfuse"
 "obp-qa-qa1-gcsfuse"
-""
+"obp-qa-qa1-gcsfuse"
+"obp-qa-qa2-gcsfuse"
 "obp-qa-qa2-gcsfuse"
 "obp-qa-qa4-gcsfuse"
-""
+"obp-qa-qa4-gcsfuse"
 )
 
 # Corresponding gcsfuse zones
@@ -126,10 +132,11 @@ gcsfuse_zones=(
 "europe-west1-b"
 "europe-west4-b"
 "europe-west1-b"
-""
+"europe-west1-b"
+"europe-west1-c"
 "europe-west1-c"
 "europe-west1-b"
-""
+"europe-west1-b"
 )
 
 echo "Select a project:"
@@ -197,4 +204,5 @@ echo "gcloud config set project $project_id"
 echo "gcloud container clusters get-credentials $cluster_name --region=europe-west1"
 echo "ssh a783283@$full_gcsfuse_hostname -o StrictHostKeyChecking=no"
 echo "gcloud compute start-iap-tunnel --project=$project_id $short_gcsfuse_hostname 9080 --local-host-port=localhost:9080 --zone=$gcsfuse_zone"
+echo "gcloud compute start-iap-tunnel --project=$project_id $short_gcsfuse_hostname 22 --local-host-port=localhost:2222 --zone=$gcsfuse_zone"
 
