@@ -332,30 +332,6 @@ wero_available="$base_url/wero/service/available"
 
 echo "Selected project: $project"
 
-echo ""
-echo "Base URL: $base_url"
-echo ""
-
-echo "XS2A RS Available: $rs_available"
-curl_rs_available=$(curl -s "$rs_available")
-echo $curl_rs_available
-echo ""
-
-echo "XS2A MSP (BO) Available: $msp_available"
-curl_msp_available=$(curl -s "$msp_available")
-echo $curl_msp_available
-echo ""
-
-echo "IS Available: $is_available"
-curl_is_available=$(curl -s "$is_available")
-echo $curl_is_available
-echo ""
-
-echo "WERO Available: $wero_available"
-curl_wero_available=$(curl -s "$wero_available")
-echo $curl_wero_available
-echo ""
-
 ########################################################################################
 
 auth_script="auth.sh"
@@ -380,6 +356,68 @@ write_without_cmd "gcloud compute start-iap-tunnel --project=$project_id $short_
 ########################################################################################
 
 echo "SSH to gcsfuse machine: ssh a783283@$full_gcsfuse_hostname -o StrictHostKeyChecking=no"
+
+########################################################################################
+
+available_script="available.sh"
+init_file "$available_script"
+# ---- Variables ----
+write_without_cmd "base_url=\"$base_url\"" "$available_script"
+write_without_cmd "rs_available=\"$rs_available\"" "$available_script"
+write_without_cmd "msp_available=\"$msp_available\"" "$available_script"
+write_without_cmd "is_available=\"$is_available\"" "$available_script"
+write_without_cmd "wero_available=\"$wero_available\"" "$available_script"
+write_without_cmd "" "$available_script"
+
+# ---- Helper ----
+write_without_cmd 'run_cmd() {' "$available_script"
+write_without_cmd '  echo ""' "$available_script"
+write_without_cmd '  echo "➡️  $1"' "$available_script"
+write_without_cmd '  echo "--------------------------------"' "$available_script"
+write_without_cmd '  eval "$1"' "$available_script"
+write_without_cmd '}' "$available_script"
+write_without_cmd "" "$available_script"
+
+# ---- Functions ----
+write_without_cmd 'get_base_url() { run_cmd "echo $base_url"; }' "$available_script"
+write_without_cmd 'get_xs2a_rs_available() { run_cmd "curl -s $rs_available"; }' "$available_script"
+write_without_cmd 'get_xs2a_msp_available() { run_cmd "curl -s $msp_available"; }' "$available_script"
+write_without_cmd 'get_is_available() { run_cmd "curl -s $is_available"; }' "$available_script"
+write_without_cmd 'get_wero_available() { run_cmd "curl -s $wero_available"; }' "$available_script"
+
+# ---- Menu ----
+write_without_cmd 'while true; do' "$available_script"
+write_without_cmd 'echo ""' "$available_script"
+write_without_cmd 'echo "============================="' "$available_script"
+write_without_cmd 'echo "   AVAILABLE SERVICES MENU"' "$available_script"
+write_without_cmd 'echo "============================="' "$available_script"
+write_without_cmd 'echo "Base URL: $base_url"' "$available_script"
+write_without_cmd 'echo "XS2A RS Available: $rs_available"' "$available_script"
+write_without_cmd 'echo "XS2A MSP (BO) Available: $msp_available"' "$available_script"
+write_without_cmd 'echo "IS Available: $is_available"' "$available_script"
+write_without_cmd 'echo "WERO Available: $wero_available"' "$available_script"
+write_without_cmd 'echo "-----------------------------"' "$available_script"
+
+write_without_cmd 'echo "1) Get Base URL"' "$available_script"
+write_without_cmd 'echo "2) Get XS2A RS Available"' "$available_script"
+write_without_cmd 'echo "3) Get XS2A MSP Available"' "$available_script"
+write_without_cmd 'echo "4) Get IS Available"' "$available_script"
+write_without_cmd 'echo "5) Get WERO Available"' "$available_script"
+write_without_cmd 'echo "0) Exit"' "$available_script"
+
+write_without_cmd 'read -p "Choice: " choice' "$available_script"
+
+write_without_cmd 'case $choice in' "$available_script"
+write_without_cmd '1) get_base_url ;;' "$available_script"
+write_without_cmd '2) get_xs2a_rs_available ;;' "$available_script"
+write_without_cmd '3) get_xs2a_msp_available ;;' "$available_script"
+write_without_cmd '4) get_is_available ;;' "$available_script"
+write_without_cmd '5) get_wero_available ;;' "$available_script"
+write_without_cmd '0) exit 0 ;;' "$available_script"
+write_without_cmd '*) echo "Invalid option" ;;' "$available_script"
+write_without_cmd 'esac' "$available_script"
+
+write_without_cmd 'done' "$available_script"
 
 ########################################################################################
 
